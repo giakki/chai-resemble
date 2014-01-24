@@ -6,7 +6,7 @@ Chai helper for visually comparing HTML pages
 #Installation#
     npm install chai-resemble
 
-Note: it requires you to have PhantomJS installed as well.
+Note: to use this helper, you should also have PhantomJS, imagemagick and graphicsmagick installed.
 
 #Usage#
 
