@@ -2,7 +2,7 @@
   "name": "chai-resemble",
   "version": "0.0.0",
   "description": "Chai helper for visually comparing HTML pages",
-  "main": "chai_resemble.js",
+  "main": "chai-resemble.js",
   "scripts": {
     "test": "node_modules/mocha/bin/_mocha tests/*.js --reporter spec"
   },
