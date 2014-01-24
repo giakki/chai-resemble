@@ -12,15 +12,20 @@ function abs(file) {
     return path.join(__dirname, file);
 }
 
-describe("Pages should resemble the reference", function () {
+describe("chai-resemble", function () {
     this.timeout(15000);
 
-    it('Bootstrap', function (done) {
+    it('Should resemble itself', function (done) {
+        expect('http://getbootstrap.com/examples/jumbotron/')
+            .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
+    });
+
+    it('Should resemble the original', function (done) {
         expect(abs('fixtures/jumbotron.html'))
             .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
     });
 
-    it('Bootstrap - Error case', function (done) {
+    it('Should not resemble another page', function (done) {
         expect(abs('fixtures/jumbotron.html'))
             .to.not.resemble('http://getbootstrap.com/examples/grid/', done);
     });

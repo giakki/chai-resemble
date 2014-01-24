@@ -29,11 +29,11 @@ module.exports = function (chai, utils) {
             ];
 
         /* Run PhantomJS */
-        require('child_process').execFile(phantom.path, child_args, function (err) {
-            if (err) {
-                return callback(err);
+        require('child_process').execFile(phantom.path, child_args, function (err, stdout, stderr) {
+            if (err || stderr) {
+                return callback(err || stderr);
             }
-            gm.compare(child_args[3], child_args[4], tolerance, function (err, isEqual, equality) {
+            gm.compare(child_args[3], child_args[4], tolerance, function (err, isEqual) {
                 if (err) {
                     return callback(err);
                 }
