@@ -9,8 +9,12 @@ var fs      = require('fs'),
 module.exports = function (chai, utils) {
     'use strict';
 
-    chai.Assertion.addMethod('resemble', function (other, callback) {
-        var assertion = this.assert,
+    chai.Assertion.addMethod('resemble', function (other, tolerance, callback) {
+        if (typeof tolerance === 'function') {
+            callback  = tolerance;
+            tolerance = 0;
+        }
+        var assertion = this,
             this_destination  = path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
             other_destination = path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
             child_args = [
@@ -29,12 +33,12 @@ module.exports = function (chai, utils) {
             if (err) {
                 return callback(err);
             }
-            gm.compare(child_args[3], child_args[4], function (err, isEqual, equality) {
+            gm.compare(child_args[3], child_args[4], tolerance, function (err, isEqual, equality) {
                 if (err) {
                     return callback(err);
                 }
 
-                assertion(
+                assertion.assert(
                     isEqual === true,
                     'expected ' + assertion._obj + ' to resemble ' + other + info_msg,
                     'expected ' + assertion._obj + ' to not resemble ' + other + info_msg
