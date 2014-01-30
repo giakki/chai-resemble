@@ -25,11 +25,13 @@
   },
   "homepage": "https://github.com/giakki/chai-resemble",
   "devDependencies": {
-    "phantomjs": "~1.9.2-6",
     "chai": "~1.8.1",
     "mocha": "~1.17.1"
   },
   "dependencies": {
-    "gm": "~1.14.2"
+    "pngparse": "~2.0.1"
+  },
+  "peerDependencies": {
+    "phantomjs": "~1.9.7-1"
   }
 }

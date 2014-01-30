@@ -1,13 +1,17 @@
-var fs      = require('fs'),
-    gm      = require('gm'),
-    path    = require('path'),
-    phantom = require('phantomjs'),
-    /**/
-    info_msg = '\n     The screenshots can be located at ' +
-               path.join(__dirname, 'screenshots');
+'use strict';
 
-module.exports = function (chai, utils) {
-    'use strict';
+var fs       = require('fs'),
+    path     = require('path'),
+    phantom  = require('phantomjs'),
+    resemble = require('./lib/resemble.js');
+
+function info_msg(percentage) {
+    return '\n     misMatchPercentage: ' + percentage  +
+           '\n     The screenshots can be located at ' +
+           path.join(__dirname, 'screenshots');
+}
+
+module.exports = function (chai) {
 
     chai.Assertion.addMethod('resemble', function (other, tolerance, callback) {
         if (typeof tolerance === 'function') {
@@ -33,15 +37,14 @@ module.exports = function (chai, utils) {
             if (err || stderr) {
                 return callback(err || stderr);
             }
-            gm.compare(child_args[3], child_args[4], tolerance, function (err, isEqual) {
-                if (err) {
-                    return callback(err);
-                }
+            resemble(child_args[3], child_args[4], function (data) {
 
                 assertion.assert(
-                    isEqual === true,
-                    'expected ' + assertion._obj + ' to resemble ' + other + info_msg,
-                    'expected ' + assertion._obj + ' to not resemble ' + other + info_msg
+                    data.misMatchPercentage <= tolerance,
+                    'expected ' + assertion._obj + ' to resemble ' + other +
+                        info_msg(data.misMatchPercentage),
+                    'expected ' + assertion._obj + ' to not resemble ' + other +
+                        info_msg(data.misMatchPercentage)
                 );
 
                 /* If all was successful, cleanup */
