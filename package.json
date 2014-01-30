@@ -1,6 +1,6 @@
 {
   "name": "chai-resemble",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Chai helper for visually comparing HTML pages",
   "main": "chai-resemble.js",
   "scripts": {
