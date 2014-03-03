@@ -13,11 +13,14 @@ function info_msg(percentage) {
 
 module.exports = function (chai) {
 
-    chai.Assertion.addMethod('resemble', function (other, tolerance, callback) {
-        if (typeof tolerance === 'function') {
-            callback  = tolerance;
-            tolerance = 0;
+    chai.Assertion.addMethod('resemble', function (other, options, callback) {
+        if (typeof options === 'function') {
+            callback  = options;
+            options = {};
         }
+
+        options.tolerance = options.tolerance || 0.2;
+
         var assertion = this,
             this_destination  = path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
             other_destination = path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
@@ -40,22 +43,12 @@ module.exports = function (chai) {
             resemble(child_args[3], child_args[4], function (data) {
 
                 assertion.assert(
-                    data.misMatchPercentage <= tolerance,
+                    data.misMatchPercentage <= options.tolerance,
                     'expected ' + assertion._obj + ' to resemble ' + other +
                         info_msg(data.misMatchPercentage),
                     'expected ' + assertion._obj + ' to not resemble ' + other +
                         info_msg(data.misMatchPercentage)
                 );
-
-                /* If all was successful, cleanup */
-                fs.unlink(this_destination, function (err) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    fs.unlink(other_destination, function (err) {
-                        return callback(err);
-                    });
-                });
             });
         });
     });
