@@ -22,7 +22,7 @@ describe('chai-resemble', function () {
 
     it('Should resemble the original', function (done) {
         expect(abs('fixtures/jumbotron.html'))
-            .to.resemble('http://getbootstrap.com/examples/jumbotron/', 2, done);
+            .to.resemble('http://getbootstrap.com/examples/jumbotron/', { tolerance: 0.2 }, done);
     });
 
     it('Should not resemble another page', function (done) {
