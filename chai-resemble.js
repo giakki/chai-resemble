@@ -1,7 +1,6 @@
 'use strict';
 
-var fs       = require('fs'),
-    path     = require('path'),
+var path     = require('path'),
     phantom  = require('phantomjs'),
     resemble = require('./lib/resemble.js');
 
@@ -46,16 +45,7 @@ module.exports = function (chai) {
                     'expected ' + assertion._obj + ' to not resemble ' + other +
                         info_msg(data.misMatchPercentage)
                 );
-
-                /* If all was successful, cleanup */
-                fs.unlink(this_destination, function (err) {
-                    if (err) {
-                        return callback(err);
-                    }
-                    fs.unlink(other_destination, function (err) {
-                        return callback(err);
-                    });
-                });
+                return callback();
             });
         });
     });

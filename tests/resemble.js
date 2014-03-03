@@ -12,7 +12,7 @@ function abs(file) {
     return path.join(__dirname, file);
 }
 
-describe("chai-resemble", function () {
+describe('chai-resemble', function () {
     this.timeout(15000);
 
     it('Should resemble itself', function (done) {
