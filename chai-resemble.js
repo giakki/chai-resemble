@@ -1,55 +1,68 @@
 'use strict';
 
-var path     = require('path'),
-    phantom  = require('phantomjs'),
-    resemble = require('./lib/resemble.js');
+var nodefn = require('when/node'),
+    looksSame = require('looks-same'),
+    path     = require('path'),
+    phridge  = require('phridge');
 
-function info_msg(percentage) {
-    return '\n     misMatchPercentage: ' + percentage  +
-           '\n     The screenshots can be located at ' +
-           path.join(__dirname, 'screenshots');
+var phantom;
+
+function info_msg() {
+    return 'The screenshots can be located at ' + path.join(__dirname, 'screenshots');
 }
+
 
 module.exports = function (chai) {
 
-    chai.Assertion.addMethod('resemble', function (other, options, callback) {
-        if (typeof options === 'function') {
-            callback  = options;
-            options = {};
-        }
-
-        options.tolerance = options.tolerance || 0.2;
-
+    chai.Assertion.addMethod('resemble', function (otherSrc, callback) {
         var assertion = this,
-            this_destination  = path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
-            other_destination = path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
-            child_args = [
-                /* Script */
-                path.join(__dirname, 'lib/screenshot.js'),
-                /* Sources */
-                this._obj,
-                other,
-                /* Destinations */
-                this_destination,
-                other_destination
+            src = [
+                assertion._obj,
+                otherSrc
+            ],
+            dest = [
+                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
+                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
             ];
 
         /* Run PhantomJS */
-        require('child_process').execFile(phantom.path, child_args, function (err, stdout, stderr) {
-            if (err || stderr) {
-                return callback(err || stderr);
-            }
-            resemble(child_args[3], child_args[4], function (data) {
-
+        return phridge.spawn()
+            .then(function (instance) {
+                phantom = instance;
+            })
+            .then(function () {
+                return phantom.openPage(src[0]);
+            })
+            .then(function (page) {
+                return page.run(dest[0], function (destination, resolve) {
+                    this.render(destination);
+                    resolve();
+                });
+            })
+            .then(function () {
+                return phantom.openPage(src[1]);
+            })
+            .then(function (page) {
+                return page.run(dest[1], function (destination, resolve) {
+                    this.render(destination);
+                    resolve();
+                });
+            })
+            .finally(phridge.disposeAll)
+            .then(function () {
+                return nodefn.call(looksSame, dest[0], dest[1]);
+            })
+            .then(function (equal) {
                 assertion.assert(
-                    data.misMatchPercentage <= options.tolerance,
-                    'expected ' + assertion._obj + ' to resemble ' + other +
-                        info_msg(data.misMatchPercentage),
-                    'expected ' + assertion._obj + ' to not resemble ' + other +
-                        info_msg(data.misMatchPercentage)
+                    equal === true,
+                    'expected ' + assertion._obj + ' to resemble ' + otherSrc + info_msg(),
+                    'expected ' + assertion._obj + ' to not resemble ' + otherSrc + info_msg()
                 );
-                return callback();
+            })
+            .done(function () {
+                return nodefn.liftCallback(callback)();
+            }, function (err) {
+                throw err;
             });
-        });
     });
 };
