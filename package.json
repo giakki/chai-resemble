@@ -1,38 +1,42 @@
 {
   "name": "chai-resemble",
+  "author": "Giacomo Martino",
   "version": "0.4.0",
   "description": "Chai helper for visually comparing HTML pages",
   "main": "chai-resemble.js",
+  "files": [
+    "chai-resemble.js",
+    "LICENSE"
+  ],
   "scripts": {
-    "test": "node_modules/mocha/bin/_mocha tests/*.js --reporter spec"
+    "test": "mocha tests/*.js --reporter spec"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:giakki/chai-resemble.git"
+    "url": "https://github.com/giakki/chai-resemble.git"
   },
   "keywords": [
     "chai",
-    "gm",
-    "resemble",
     "css",
+    "gm",
     "regression",
+    "resemble",
     "testing"
   ],
-  "author": "Giacomo Martino",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/giakki/chai-resemble/issues"
   },
   "homepage": "https://github.com/giakki/chai-resemble",
+  "dependencies": {
+    "looks-same": "~1.0.1",
+    "phridge": "~1.0.7",
+    "pngparse": "~2.0.1",
+    "when": "~3.6.3"
+  },
   "devDependencies": {
     "chai": "~1.10.0",
     "mocha": "~2.0.1"
-  },
-  "dependencies": {
-    "looks-same": "^1.0.1",
-    "phridge": "^1.0.7",
-    "pngparse": "~2.0.1",
-    "when": "^3.6.3"
   },
   "peerDependencies": {
     "phantomjs": "~1.9.7-1"
