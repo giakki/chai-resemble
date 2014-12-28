@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "lint": "jshint . && eslint .",
-    "test": "mocha tests/*.js --reporter spec"
+    "test": "npm run lint && mocha tests/*.js --reporter spec"
   },
   "repository": {
     "type": "git",
