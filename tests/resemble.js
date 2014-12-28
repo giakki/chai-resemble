@@ -1,10 +1,12 @@
-/* jshint expr: true */
 'use strict';
 
-var chai     = require('chai'),
-    expect   = chai.expect,
-    path     = require('path'),
+/* eslint-env mocha */
+
+var chai = require('chai'),
+    path = require('path'),
     resemble = require('../chai-resemble.js');
+
+var expect = chai.expect;
 
 chai.use(resemble);
 

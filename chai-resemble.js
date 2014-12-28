@@ -2,15 +2,14 @@
 
 var nodefn = require('when/node'),
     looksSame = require('looks-same'),
-    path     = require('path'),
-    phridge  = require('phridge');
+    path = require('path'),
+    phridge = require('phridge');
 
 var phantom;
 
-function info_msg() {
+function infoMsg() {
     return 'The screenshots can be located at ' + path.join(__dirname, 'screenshots');
 }
-
 
 module.exports = function (chai) {
 
@@ -22,7 +21,7 @@ module.exports = function (chai) {
             ],
             dest = [
                 path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
+                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png')
             ];
 
         /* Run PhantomJS */
@@ -55,8 +54,8 @@ module.exports = function (chai) {
             .then(function (equal) {
                 assertion.assert(
                     equal === true,
-                    'expected ' + assertion._obj + ' to resemble ' + otherSrc + info_msg(),
-                    'expected ' + assertion._obj + ' to not resemble ' + otherSrc + info_msg()
+                    'expected ' + assertion._obj + ' to resemble ' + otherSrc + infoMsg(),
+                    'expected ' + assertion._obj + ' to not resemble ' + otherSrc + infoMsg()
                 );
             })
             .done(function () {
