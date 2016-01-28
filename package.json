@@ -30,16 +30,16 @@
   },
   "homepage": "https://github.com/giakki/chai-resemble",
   "dependencies": {
-    "looks-same": "~1.0.1",
-    "phridge": "~1.0.7",
+    "looks-same": "~2.2.2",
+    "phridge": "~1.2.2",
     "pngparse": "~2.0.1",
-    "when": "~3.6.4"
+    "when": "~3.7.7"
   },
   "devDependencies": {
-    "chai": "~1.10.0",
-    "eslint": "~0.10.2",
-    "jshint": "~2.5.11",
-    "mocha": "~2.1.0"
+    "chai": "~3.4.1",
+    "eslint": "~1.10.3",
+    "jshint": "~2.9.1",
+    "mocha": "~2.4.4"
   },
   "peerDependencies": {
     "phantomjs": "~1.9.7-1"
