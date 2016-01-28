@@ -1,5 +1,7 @@
 language: node_js
 
+sudo: false
+
 node_js:
     - "0.10"
     - "4"
@@ -11,5 +13,4 @@ install:
 script: "npm test"
 
 matrix:
-  allow_failures:
-    - node_js: "0.11"
+    fast_finish: true

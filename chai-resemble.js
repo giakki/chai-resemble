@@ -8,7 +8,7 @@ var nodefn = require('when/node'),
 var phantom;
 
 function infoMsg() {
-    return 'The screenshots can be located at ' + path.join(__dirname, 'screenshots');
+    return 'The screenshots can be found at ' + path.join(__dirname, 'screenshots');
 }
 
 module.exports = function (chai) {

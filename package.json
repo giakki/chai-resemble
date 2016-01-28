@@ -1,20 +1,22 @@
 {
   "name": "chai-resemble",
-  "author": "Giacomo Martino",
   "version": "0.4.1",
+  "author": "Giacomo Martino",
   "description": "Chai helper for visually comparing HTML pages",
+  "license": "MIT",
+  "homepage": "https://github.com/giakki/chai-resemble",
   "main": "chai-resemble.js",
-  "files": [
-    "chai-resemble.js",
-    "LICENSE"
-  ],
   "scripts": {
-    "lint": "jshint . && eslint .",
-    "test": "npm run lint && mocha tests/*.js --reporter spec"
+    "eslint": "eslint .",
+    "mocha": "mocha tests/*.js --reporter spec",
+    "test": "npm run eslint && npm run mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/giakki/chai-resemble.git"
+    "url": "git+https://github.com/giakki/chai-resemble.git"
+  },
+  "bugs": {
+    "url": "https://github.com/giakki/chai-resemble/issues"
   },
   "keywords": [
     "chai",
@@ -24,11 +26,6 @@
     "resemble",
     "testing"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/giakki/chai-resemble/issues"
-  },
-  "homepage": "https://github.com/giakki/chai-resemble",
   "dependencies": {
     "looks-same": "~2.2.2",
     "phridge": "~1.2.2",
@@ -36,12 +33,15 @@
     "when": "~3.7.7"
   },
   "devDependencies": {
-    "chai": "~3.4.1",
+    "chai": "~3.5.0",
     "eslint": "~1.10.3",
-    "jshint": "~2.9.1",
     "mocha": "~2.4.4"
   },
   "peerDependencies": {
     "phantomjs": "~1.9.7-1"
-  }
+  },
+  "files": [
+    "chai-resemble.js",
+    "LICENSE"
+  ]
 }
