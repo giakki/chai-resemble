@@ -1,6 +1,6 @@
-'use strict';
-
 /* eslint-env mocha */
+
+'use strict';
 
 var chai = require('chai'),
     path = require('path'),
