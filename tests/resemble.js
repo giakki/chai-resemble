@@ -2,11 +2,11 @@
 
 'use strict';
 
-var chai = require('chai'),
-    path = require('path'),
-    resemble = require('../chai-resemble.js');
+const chai = require('chai');
+const path = require('path');
+const resemble = require('../chai-resemble.js');
 
-var expect = chai.expect;
+const expect = chai.expect;
 
 chai.use(resemble);
 
@@ -17,18 +17,18 @@ function abs(file) {
 describe('chai-resemble', function () {
     this.timeout(15000);
 
-    it('Should resemble itself', function (done) {
-        expect('http://getbootstrap.com/examples/jumbotron/')
-            .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
+    it('Should resemble itself', (done) => {
+        expect('http://getbootstrap.com/docs/3.3/examples/jumbotron/')
+            .to.resemble('http://getbootstrap.com/docs/3.3/examples/jumbotron/', done);
     });
 
-    it('Should resemble the original', function (done) {
+    it('Should resemble the original', (done) => {
         expect(abs('fixtures/jumbotron.html'))
-            .to.resemble('http://getbootstrap.com/examples/jumbotron/', done);
+            .to.resemble('http://getbootstrap.com/docs/3.3/examples/jumbotron/', done);
     });
 
-    it('Should not resemble another page', function (done) {
+    it('Should not resemble another page', (done) => {
         expect(abs('fixtures/jumbotron.html'))
-            .to.not.resemble('http://getbootstrap.com/examples/grid/', done);
+            .to.not.resemble('http://getbootstrap.com/docs/3.3/examples/grid/', done);
     });
 });
