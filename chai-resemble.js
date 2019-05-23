@@ -47,7 +47,8 @@ module.exports = function (chai) {
                     resolve();
                 });
             })
-            .finally(phridge.disposeAll)
+            .then(phridge.disposeAll)
+            .catch(phridge.disposeAll)
             .then(function () {
                 return nodefn.call(looksSame, dest[0], dest[1]);
             })
