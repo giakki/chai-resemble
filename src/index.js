@@ -24,8 +24,8 @@ module.exports = function(chai) {
         var assertion = this,
             src = [assertion._obj, otherSrc],
             dest = [
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
+                path.resolve(__dirname, '..', 'screenshots', path.basename(this._obj, '.html') + '.png'),
+                path.resolve(__dirname, '..', 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
             ];
 
         return puppeteer

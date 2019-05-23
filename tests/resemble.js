@@ -4,7 +4,7 @@
 
 var chai = require('chai'),
     path = require('path'),
-    resemble = require('../chai-resemble.js');
+    resemble = require('../src');
 
 var expect = chai.expect;
 

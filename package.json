@@ -5,7 +5,7 @@
     "description": "Chai helper for visually comparing HTML pages",
     "license": "MIT",
     "homepage": "https://github.com/giakki/chai-resemble",
-    "main": "chai-resemble.js",
+    "main": "src/index.js",
     "scripts": {
         "eslint": "eslint .",
         "mocha": "mocha tests/*.js --reporter spec",
@@ -37,7 +37,7 @@
         "mocha": "~6.1.4"
     },
     "files": [
-        "chai-resemble.js",
+        "src/**/*",
         "LICENSE"
     ],
     "prettier": {
