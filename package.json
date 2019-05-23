@@ -1,6 +1,6 @@
 {
   "name": "chai-resemble",
-  "version": "0.4.1",
+  "version": "1.0.0",
   "author": "Giacomo Martino",
   "description": "Chai helper for visually comparing HTML pages",
   "license": "MIT",
