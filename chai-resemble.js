@@ -47,7 +47,8 @@ module.exports = function (chai) {
                     resolve();
                 });
             })
-            .finally(phridge.disposeAll)
+            .then(phridge.disposeAll)
+            .catch(phridge.disposeAll)
             .then(function () {
                 return nodefn.call(looksSame, dest[0], dest[1]);
             })
@@ -58,10 +59,10 @@ module.exports = function (chai) {
                     'expected ' + assertion._obj + ' to not resemble ' + otherSrc + infoMsg()
                 );
             })
-            .done(function () {
+            .then(function () {
                 return nodefn.liftCallback(callback)();
-            }, function (err) {
-                throw err;
+            }).catch(function (err) {
+                return nodefn.liftCallback(callback)(err);
             });
     });
 };
