@@ -1,42 +1,50 @@
 {
-  "name": "chai-resemble",
-  "version": "1.0.0",
-  "author": "Giacomo Martino",
-  "description": "Chai helper for visually comparing HTML pages",
-  "license": "MIT",
-  "homepage": "https://github.com/giakki/chai-resemble",
-  "main": "chai-resemble.js",
-  "scripts": {
-    "eslint": "eslint .",
-    "mocha": "mocha tests/*.js --reporter spec",
-    "test": "npm run eslint && npm run mocha"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/giakki/chai-resemble.git"
-  },
-  "bugs": {
-    "url": "https://github.com/giakki/chai-resemble/issues"
-  },
-  "keywords": [
-    "chai",
-    "css",
-    "gm",
-    "regression",
-    "resemble",
-    "testing"
-  ],
-  "dependencies": {
-    "looks-same": "~7.2.1",
-    "puppeteer": "^1.16.0"
-  },
-  "devDependencies": {
-    "chai": "~4.2.0",
-    "eslint": "~5.16.0",
-    "mocha": "~6.1.4"
-  },
-  "files": [
-    "chai-resemble.js",
-    "LICENSE"
-  ]
+    "name": "chai-resemble",
+    "version": "1.0.0",
+    "author": "Giacomo Martino",
+    "description": "Chai helper for visually comparing HTML pages",
+    "license": "MIT",
+    "homepage": "https://github.com/giakki/chai-resemble",
+    "main": "chai-resemble.js",
+    "scripts": {
+        "eslint": "eslint .",
+        "mocha": "mocha tests/*.js --reporter spec",
+        "test": "npm run eslint && npm run mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/giakki/chai-resemble.git"
+    },
+    "bugs": {
+        "url": "https://github.com/giakki/chai-resemble/issues"
+    },
+    "keywords": [
+        "chai",
+        "css",
+        "gm",
+        "regression",
+        "resemble",
+        "testing"
+    ],
+    "dependencies": {
+        "looks-same": "~7.2.1",
+        "puppeteer": "^1.16.0"
+    },
+    "devDependencies": {
+        "chai": "~4.2.0",
+        "eslint": "~5.16.0",
+        "eslint-config-prettier": "^4.3.0",
+        "mocha": "~6.1.4"
+    },
+    "files": [
+        "chai-resemble.js",
+        "LICENSE"
+    ],
+    "prettier": {
+        "endOfLine": "lf",
+        "printWidth": 120,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "es5"
+    }
 }

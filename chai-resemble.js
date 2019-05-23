@@ -10,8 +10,8 @@ function infoMsg() {
 }
 
 function screenshot(browser, source, destination) {
-    return browser.newPage().then(function (page) {
-        return page.goto(source).then(function () {
+    return browser.newPage().then(function(page) {
+        return page.goto(source).then(function() {
             return page.screenshot({ path: destination });
         });
     });
@@ -19,53 +19,51 @@ function screenshot(browser, source, destination) {
 
 var puppet;
 
-module.exports = function (chai) {
-
-    chai.Assertion.addMethod('resemble', function (otherSrc, callback) {
+module.exports = function(chai) {
+    chai.Assertion.addMethod('resemble', function(otherSrc, callback) {
         var assertion = this,
-            src = [
-                assertion._obj,
-                otherSrc
-            ],
+            src = [assertion._obj, otherSrc],
             dest = [
                 path.join(__dirname, path.basename(this._obj, '.html') + '.png'),
-                path.join(__dirname, path.basename(this._obj, '.html') + '_2.png')
+                path.join(__dirname, path.basename(this._obj, '.html') + '_2.png'),
             ];
 
-        return puppeteer.launch()
-            .then(function (browser) {
+        return puppeteer
+            .launch()
+            .then(function(browser) {
                 puppet = browser;
             })
-            .then(function () {
+            .then(function() {
                 return screenshot(puppet, src[0], dest[0]);
             })
-            .then(function () {
+            .then(function() {
                 return screenshot(puppet, src[1], dest[1]);
             })
-            .then(function () {
+            .then(function() {
                 if (puppet) {
                     puppet.close();
                 }
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 if (puppet) {
                     puppet.close();
                 }
                 throw err;
             })
-            .then(function () {
+            .then(function() {
                 return util.promisify(looksSame)(dest[0], dest[1]);
             })
-            .then(function (results) {
+            .then(function(results) {
                 assertion.assert(
                     results.equal === true,
                     'expected ' + assertion._obj + ' to resemble ' + otherSrc + infoMsg(),
                     'expected ' + assertion._obj + ' to not resemble ' + otherSrc + infoMsg()
                 );
             })
-            .then(function () {
+            .then(function() {
                 return callback();
-            }).catch(function (err) {
+            })
+            .catch(function(err) {
                 return callback(err);
             });
     });
