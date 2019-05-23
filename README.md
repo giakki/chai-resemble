@@ -13,8 +13,6 @@ Chai helper for visually comparing HTML pages.
 npm install chai-resemble
 ```
 
-Note: to use this helper, you should also have [PhantomJS](https://github.com/Obvious/phantomjs) installed.
-
 ## Usage
 
 ```js
@@ -31,4 +29,4 @@ describe('chai-resemble', function () {
 ```
 
 ## License
-Copyright (c) 2013 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
+Copyright (c) 2019 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
