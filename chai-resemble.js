@@ -28,8 +28,8 @@ module.exports = function (chai) {
                 otherSrc
             ],
             dest = [
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png')
+                path.join(__dirname, path.basename(this._obj, '.html') + '.png'),
+                path.join(__dirname, path.basename(this._obj, '.html') + '_2.png')
             ];
 
         return puppeteer.launch()
@@ -51,7 +51,7 @@ module.exports = function (chai) {
                 if (puppet) {
                     puppet.close();
                 }
-                callback(err);
+                throw err;
             })
             .then(function () {
                 return util.promisify(looksSame)(dest[0], dest[1]);
