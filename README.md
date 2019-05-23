@@ -21,12 +21,18 @@ var chai = require('chai'),
 
 chai.use(resemble);
 
-describe('chai-resemble', function () {
-    it('Should resemble the original', function (done) {
-        expect('http://google.com').to.resemble('http://google.com', done);
+describe('chai-resemble', function() {
+    it('Should resemble the original', function(done) {
+        expect('https://www.google.com').to.resemble('https://www.google.com', done);
+    });
+
+    // Specify where to store files.
+    it('Should resemble the original', function(done) {
+        expect('https://www.google.com').to.resemble('https://www.google.com' { name: 'filename', outDir: 'directory' }, done);
     });
 });
 ```
 
 ## License
+
 Copyright (c) 2019 Giacomo Martino. See the [LICENSE](/LICENSE.md) file for license rights and limitations (MIT).
