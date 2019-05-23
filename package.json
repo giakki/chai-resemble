@@ -27,18 +27,18 @@
     "testing"
   ],
   "dependencies": {
-    "looks-same": "~2.2.2",
-    "phridge": "~1.2.2",
+    "looks-same": "~7.2.1",
+    "phridge": "~2.0.0",
     "pngparse": "~2.0.1",
-    "when": "~3.7.7"
+    "when": "~3.7.8"
   },
   "devDependencies": {
-    "chai": "~3.5.0",
-    "eslint": "~1.10.3",
-    "mocha": "~2.4.4"
+    "chai": "~4.2.0",
+    "eslint": "~5.16.0",
+    "mocha": "~6.1.4"
   },
   "peerDependencies": {
-    "phantomjs": "~1.9.7-1"
+    "phantomjs": "~2.1.7"
   },
   "files": [
     "chai-resemble.js",

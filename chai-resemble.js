@@ -58,10 +58,10 @@ module.exports = function (chai) {
                     'expected ' + assertion._obj + ' to not resemble ' + otherSrc + infoMsg()
                 );
             })
-            .done(function () {
+            .then(function () {
                 return nodefn.liftCallback(callback)();
-            }, function (err) {
-                throw err;
+            }).catch(function (err) {
+                return nodefn.liftCallback(callback)(err);
             });
     });
 };
