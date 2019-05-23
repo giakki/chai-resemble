@@ -14,8 +14,12 @@ function resemble(src, dest) {
         .then(browser => {
             puppet = browser;
         })
-        .then(() => screenshot(puppet, src[0], dest[0]))
-        .then(() => screenshot(puppet, src[1], dest[1]))
+        .then(() =>
+            Promise.all([
+                screenshot(puppet, src.current, dest.current),
+                screenshot(puppet, src.reference, dest.reference),
+            ])
+        )
         .then(() => {
             if (puppet) {
                 puppet.close();
@@ -27,7 +31,7 @@ function resemble(src, dest) {
             }
             throw err;
         })
-        .then(() => util.promisify(looksSame)(dest[0], dest[1]));
+        .then(() => util.promisify(looksSame)(dest.current, dest.reference));
 }
 
 module.exports = resemble;
