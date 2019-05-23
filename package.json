@@ -1,6 +1,6 @@
 {
   "name": "chai-resemble",
-  "version": "0.4.1",
+  "version": "1.0.0",
   "author": "Giacomo Martino",
   "description": "Chai helper for visually comparing HTML pages",
   "license": "MIT",
@@ -28,17 +28,12 @@
   ],
   "dependencies": {
     "looks-same": "~7.2.1",
-    "phridge": "~2.0.0",
-    "pngparse": "~2.0.1",
-    "when": "~3.7.8"
+    "puppeteer": "^1.16.0"
   },
   "devDependencies": {
     "chai": "~4.2.0",
     "eslint": "~5.16.0",
     "mocha": "~6.1.4"
-  },
-  "peerDependencies": {
-    "phantomjs": "~2.1.7"
   },
   "files": [
     "chai-resemble.js",
