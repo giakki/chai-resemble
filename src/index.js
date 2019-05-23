@@ -1,70 +1,56 @@
 'use strict';
 
-var looksSame = require('looks-same'),
-    path = require('path'),
-    puppeteer = require('puppeteer'),
-    util = require('util');
+const looksSame = require('looks-same');
+const path = require('path');
+const puppeteer = require('puppeteer');
+const util = require('util');
 
 function infoMsg() {
     return 'The screenshots can be found at ' + path.join(__dirname, 'screenshots');
 }
 
 function screenshot(browser, source, destination) {
-    return browser.newPage().then(function(page) {
-        return page.goto(source).then(function() {
-            return page.screenshot({ path: destination });
-        });
-    });
+    return browser.newPage().then(page => page.goto(source).then(() => page.screenshot({ path: destination })));
 }
 
-var puppet;
+let puppet;
 
-module.exports = function(chai) {
+module.exports = chai => {
     chai.Assertion.addMethod('resemble', function(otherSrc, callback) {
-        var assertion = this,
-            src = [assertion._obj, otherSrc],
-            dest = [
-                path.resolve(__dirname, '..', 'screenshots', path.basename(this._obj, '.html') + '.png'),
-                path.resolve(__dirname, '..', 'screenshots', path.basename(this._obj, '.html') + '_2.png'),
-            ];
+        const assertion = this;
+        const src = [assertion._obj, otherSrc];
+        const dest = [
+            path.resolve(__dirname, '..', 'screenshots', path.basename(this._obj, '.html') + '.current.png'),
+            path.resolve(__dirname, '..', 'screenshots', path.basename(this._obj, '.html') + '.reference.png'),
+        ];
 
         return puppeteer
             .launch()
-            .then(function(browser) {
+            .then(browser => {
                 puppet = browser;
             })
-            .then(function() {
-                return screenshot(puppet, src[0], dest[0]);
-            })
-            .then(function() {
-                return screenshot(puppet, src[1], dest[1]);
-            })
-            .then(function() {
+            .then(() => screenshot(puppet, src[0], dest[0]))
+            .then(() => screenshot(puppet, src[1], dest[1]))
+            .then(() => {
                 if (puppet) {
                     puppet.close();
                 }
             })
-            .catch(function(err) {
+            .catch(err => {
                 if (puppet) {
                     puppet.close();
                 }
                 throw err;
             })
-            .then(function() {
-                return util.promisify(looksSame)(dest[0], dest[1]);
-            })
-            .then(function(results) {
+            .then(() => util.promisify(looksSame)(dest[0], dest[1]))
+            .then(results => {
                 assertion.assert(
                     results.equal === true,
-                    'expected ' + assertion._obj + ' to resemble ' + otherSrc + infoMsg(),
-                    'expected ' + assertion._obj + ' to not resemble ' + otherSrc + infoMsg()
+                    'expected ' + src[0] + ' to resemble ' + otherSrc + infoMsg(),
+                    'expected ' + src[0] + ' to not resemble ' + otherSrc + infoMsg()
                 );
             })
-            .then(function() {
-                return callback();
-            })
-            .catch(function(err) {
-                return callback(err);
-            });
+            .then(() => callback())
+            .catch(err => callback(err));
     });
 };
