@@ -1,15 +1,23 @@
 'use strict';
 
-var nodefn = require('when/node'),
-    looksSame = require('looks-same'),
+var looksSame = require('looks-same'),
     path = require('path'),
-    phridge = require('phridge');
-
-var phantom;
+    puppeteer = require('puppeteer'),
+    util = require('util');
 
 function infoMsg() {
     return 'The screenshots can be found at ' + path.join(__dirname, 'screenshots');
 }
+
+function screenshot(browser, source, destination) {
+    return browser.newPage().then(function (page) {
+        return page.goto(source).then(function () {
+            return page.screenshot({ path: destination });
+        });
+    });
+}
+
+var puppet;
 
 module.exports = function (chai) {
 
@@ -20,49 +28,45 @@ module.exports = function (chai) {
                 otherSrc
             ],
             dest = [
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '.png'),
-                path.join(__dirname, 'screenshots', path.basename(this._obj, '.html') + '_2.png')
+                path.join(__dirname, path.basename(this._obj, '.html') + '.png'),
+                path.join(__dirname, path.basename(this._obj, '.html') + '_2.png')
             ];
 
-        /* Run PhantomJS */
-        return phridge.spawn()
-            .then(function (instance) {
-                phantom = instance;
+        return puppeteer.launch()
+            .then(function (browser) {
+                puppet = browser;
             })
             .then(function () {
-                return phantom.openPage(src[0]);
-            })
-            .then(function (page) {
-                return page.run(dest[0], function (destination, resolve) {
-                    this.render(destination);
-                    resolve();
-                });
+                return screenshot(puppet, src[0], dest[0]);
             })
             .then(function () {
-                return phantom.openPage(src[1]);
+                return screenshot(puppet, src[1], dest[1]);
             })
-            .then(function (page) {
-                return page.run(dest[1], function (destination, resolve) {
-                    this.render(destination);
-                    resolve();
-                });
-            })
-            .then(phridge.disposeAll)
-            .catch(phridge.disposeAll)
             .then(function () {
-                return nodefn.call(looksSame, dest[0], dest[1]);
+                if (puppet) {
+                    puppet.close();
+                }
             })
-            .then(function (equal) {
+            .catch(function (err) {
+                if (puppet) {
+                    puppet.close();
+                }
+                throw err;
+            })
+            .then(function () {
+                return util.promisify(looksSame)(dest[0], dest[1]);
+            })
+            .then(function (results) {
                 assertion.assert(
-                    equal === true,
+                    results.equal === true,
                     'expected ' + assertion._obj + ' to resemble ' + otherSrc + infoMsg(),
                     'expected ' + assertion._obj + ' to not resemble ' + otherSrc + infoMsg()
                 );
             })
             .then(function () {
-                return nodefn.liftCallback(callback)();
+                return callback();
             }).catch(function (err) {
-                return nodefn.liftCallback(callback)(err);
+                return callback(err);
             });
     });
 };

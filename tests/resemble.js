@@ -11,7 +11,7 @@ var expect = chai.expect;
 chai.use(resemble);
 
 function abs(file) {
-    return path.join(__dirname, file);
+    return 'file://' + path.join(__dirname, file);
 }
 
 describe('chai-resemble', function () {
