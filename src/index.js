@@ -3,31 +3,36 @@ const path = require('path');
 const resemble = require('./resemble');
 const tmp = require('tmp-promise');
 
-function validateOptions(options) {
-    const dirPromise = options.outDir ? makeDir(options.outDir) : tmp.dir().then(({ path }) => path);
+async function validateOptions(options) {
+    let { name, outDir } = options;
 
-    return dirPromise.then(outDir => {
-        const namePromise = options.name ? Promise.resolve(options.name) : tmp.file().then(({ name }) => name);
+    if (!outDir) {
+        const tmpDir = await tmp.dir();
+        outDir = tmpDir.path;
+    } else {
+        await makeDir(outDir);
+    }
 
-        return namePromise.then(name => ({ name, outDir }));
-    });
+    if (!name) {
+        name = path.basename(await tmp.tmpName());
+    }
+
+    return {
+        name,
+        outDir,
+    };
 }
 
 module.exports = chai => {
-    chai.Assertion.addMethod('resemble', function(reference, optionsOrCallback, callbackOrUndefined) {
+    chai.Assertion.addMethod('resemble', async function(reference, optionsOrCallback, callbackOrUndefined) {
         const assertion = this;
-        const incompleteOptions =
-            typeof optionsOrCallback === 'function'
-                ? {
-                      name: null,
-                      outDir: null,
-                  }
-                : optionsOrCallback;
+        const incompleteOptions = typeof optionsOrCallback === 'function' ? {} : optionsOrCallback;
         const callback = typeof optionsOrCallback === 'function' ? optionsOrCallback : callbackOrUndefined;
 
-        return validateOptions(incompleteOptions).then(options => {
+        try {
+            const options = await validateOptions(incompleteOptions);
             const src = {
-                current: this._obj,
+                current: assertion._obj,
                 reference,
             };
 
@@ -36,26 +41,31 @@ module.exports = chai => {
                 reference: path.join(options.outDir, options.name + '.reference.png'),
             };
 
-            return resemble(src, dest)
-                .then(results => {
-                    assertion.assert(
-                        results.equal === true,
-                        'expected ' +
-                            src.current +
-                            ' to resemble ' +
-                            src.reference +
-                            'The screenshots can be found at ' +
-                            options.outDir,
-                        'expected ' +
-                            src.current +
-                            ' to not resemble ' +
-                            src.reference +
-                            'The screenshots can be found at ' +
-                            options.outDir
-                    );
-                })
-                .then(() => callback())
-                .catch(err => callback(err));
-        });
+            const results = await resemble(src, dest);
+
+            assertion.assert(
+                results.equal === true,
+                'expected ' +
+                    src.current +
+                    ' to resemble ' +
+                    src.reference +
+                    'The screenshots can be found at ' +
+                    options.outDir,
+                'expected ' +
+                    src.current +
+                    ' to not resemble ' +
+                    src.reference +
+                    'The screenshots can be found at ' +
+                    options.outDir
+            );
+
+            if (callback) {
+                callback(null, results);
+            }
+        } catch (err) {
+            if (callback) {
+                callback(err);
+            }
+        }
     });
 };

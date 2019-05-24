@@ -37,7 +37,6 @@
     "devDependencies": {
         "chai": "~4.2.0",
         "coveralls": "^3.0.3",
-        "del": "^4.1.1",
         "eslint": "~5.16.0",
         "eslint-config-prettier": "^4.3.0",
         "mocha": "~6.1.4",

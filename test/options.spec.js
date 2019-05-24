@@ -1,12 +1,10 @@
 /* eslint-env mocha */
 
-'use strict';
-
 const chai = require('chai');
-const del = require('del');
 const fs = require('fs');
 const path = require('path');
 const resemble = require('../src');
+const tmp = require('tmp-promise');
 
 const expect = chai.expect;
 
@@ -24,31 +22,24 @@ describe('options', function() {
     });
 
     it('should honor name and outDir', done => {
-        const name = Math.random()
-            .toString()
-            .substring(2);
-
-        const files = [
-            path.resolve(__dirname, '../screenshots/' + name + '.current.png'),
-            path.resolve(__dirname, '../screenshots/' + name + '.reference.png'),
-        ];
-
-        files.forEach(f => {
-            if (fs.existsSync(f)) {
-                del.sync(f);
-            }
-        });
+        const tmpDir = tmp.dirSync();
+        const name = 'test';
 
         expect(abs('fixtures/album.html')).to.resemble(
             abs('fixtures/album.html'),
-            { name, outDir: path.resolve(__dirname, '../screenshots') },
+            { name, outDir: tmpDir.name },
             () => {
-                files.forEach(f => {
-                    expect(fs.existsSync(f)).to.be.true;
-                    del.sync(f);
-                });
+                const files = fs.readdirSync(tmpDir.name);
+                files.sort();
 
-                done();
+                try {
+                    expect(files[0]).to.equal('test.current.png');
+                    expect(files[1]).to.equal('test.reference.png');
+
+                    done();
+                } catch (err) {
+                    done(err);
+                }
             }
         );
     });

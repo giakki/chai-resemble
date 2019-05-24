@@ -1,7 +1,5 @@
 /* eslint-env mocha */
 
-'use strict';
-
 const chai = require('chai');
 const path = require('path');
 const resemble = require('../src');
