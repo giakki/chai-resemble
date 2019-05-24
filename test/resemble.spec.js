@@ -27,7 +27,7 @@ describe('chai-resemble', function() {
                 done();
             }
         );
-    })
+    });
 
     it('should resemble itself', done => {
         expect('https://getbootstrap.com/docs/4.3/examples/album/').to.resemble(

@@ -7,10 +7,11 @@
     "homepage": "https://github.com/giakki/chai-resemble",
     "main": "src/index.js",
     "scripts": {
-        "cover": "nyc mocha",
-        "eslint": "eslint .",
-        "mocha": "mocha --reporter spec",
-        "test": "npm run eslint && npm run mocha"
+        "coveralls": "nyc report --reporter=text-lcov | coveralls",
+        "lint": "eslint .",
+        "mocha": "mocha --reporter spec --timeout 25000",
+        "test": "npm run lint && npm run mocha",
+        "travis": "npm run lint && nyc npm run mocha"
     },
     "repository": {
         "type": "git",
@@ -30,16 +31,17 @@
     "dependencies": {
         "looks-same": "~7.2.1",
         "make-dir": "^3.0.0",
-        "nyc": "^14.1.1",
         "puppeteer": "^1.16.0",
         "tmp-promise": "^2.0.1"
     },
     "devDependencies": {
         "chai": "~4.2.0",
+        "coveralls": "^3.0.3",
         "del": "^4.1.1",
         "eslint": "~5.16.0",
         "eslint-config-prettier": "^4.3.0",
-        "mocha": "~6.1.4"
+        "mocha": "~6.1.4",
+        "nyc": "^14.1.1"
     },
     "files": [
         "src/**/*",
