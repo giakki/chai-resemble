@@ -1,17 +1,18 @@
 {
     "name": "chai-resemble",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "author": "Giacomo Martino",
     "description": "Chai helper for visually comparing HTML pages",
     "license": "MIT",
     "homepage": "https://github.com/giakki/chai-resemble",
     "main": "src/index.js",
     "scripts": {
+        "cover": "nyc npm run mocha",
         "coveralls": "nyc report --reporter=text-lcov | coveralls",
         "lint": "eslint .",
         "mocha": "mocha --reporter spec --timeout 25000",
         "test": "npm run lint && npm run mocha",
-        "travis": "npm run lint && nyc npm run mocha"
+        "travis": "npm run lint && npm run cover"
     },
     "repository": {
         "type": "git",
