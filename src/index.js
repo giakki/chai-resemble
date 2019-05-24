@@ -29,6 +29,10 @@ module.exports = chai => {
         const incompleteOptions = typeof optionsOrCallback === 'function' ? {} : optionsOrCallback;
         const callback = typeof optionsOrCallback === 'function' ? optionsOrCallback : callbackOrUndefined;
 
+        if (!callback) {
+            throw new Error('No callback supplied to chai-resemble');
+        }
+
         try {
             const options = await validateOptions(incompleteOptions);
             const src = {
@@ -59,13 +63,9 @@ module.exports = chai => {
                     options.outDir
             );
 
-            if (callback) {
-                callback(null, results);
-            }
+            callback(null, results);
         } catch (err) {
-            if (callback) {
-                callback(err);
-            }
+            callback(err);
         }
     });
 };

@@ -21,9 +21,7 @@ function resemble(src, dest) {
             ])
         )
         .then(() => {
-            if (puppet) {
-                puppet.close();
-            }
+            puppet.close();
         })
         .catch(err => {
             if (puppet) {

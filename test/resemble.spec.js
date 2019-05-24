@@ -41,4 +41,11 @@ describe('chai-resemble', function() {
     it('should not resemble another page', done => {
         expect(abs('fixtures/album.html')).to.not.resemble('https://getbootstrap.com/docs/4.3/examples/pricing/', done);
     });
+
+    it('should handle puppeteer errors', done => {
+        expect('%INVALID_URL%').to.resemble('%INVALID_URL%', err => {
+            expect(err).to.be.an.instanceof(Error);
+            done();
+        });
+    });
 });
