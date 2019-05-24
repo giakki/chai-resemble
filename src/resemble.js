@@ -24,7 +24,9 @@ function resemble(src, dest) {
             puppet.close();
         })
         .catch(err => {
+            /* istanbul ignore next */
             if (puppet) {
+                // There might be cases in which puppeteer.launch fails, but they are ignored from coverage right now.
                 puppet.close();
             }
             throw err;

@@ -43,15 +43,4 @@ describe('options', function() {
             }
         );
     });
-
-    it('should work with no options or callback', done => {
-        const expectError = () => {
-            process.off('unhandledRejection', expectError);
-            done();
-        };
-
-        process.on('unhandledRejection', expectError);
-
-        expect(abs('fixtures/album.html')).to.resemble(abs('fixtures/album.html'));
-    });
 });

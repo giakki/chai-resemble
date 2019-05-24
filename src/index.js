@@ -29,7 +29,9 @@ module.exports = chai => {
         const incompleteOptions = typeof optionsOrCallback === 'function' ? {} : optionsOrCallback;
         const callback = typeof optionsOrCallback === 'function' ? optionsOrCallback : callbackOrUndefined;
 
+        /* istanbul ignore if */
         if (!callback) {
+            // Ignored because it throws an unhandledRejection.
             throw new Error('No callback supplied to chai-resemble');
         }
 
